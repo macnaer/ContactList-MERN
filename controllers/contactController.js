@@ -1,5 +1,6 @@
 const path = require("path");
 const Contact = require('../models/contact');
+const { validationResult  } = require("express-validator")
 
 exports.getContacts = (req, res, next ) => {
     Contact.find()
@@ -14,6 +15,12 @@ exports.getContacts = (req, res, next ) => {
 }
 
 exports.createContact = (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()){
+        const error = new Error("Validation error, incorrect input.");
+        error.statusCode = 422;
+        throw error;
+    }
     console.log("createContact ", req.body);
     const { name, role, avatar, status, email, gender } = req.body;
     const contact = new Contact({

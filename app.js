@@ -18,7 +18,8 @@ app.use((req,res,next) => {
 })
 
 app.use("/api/", contactRoute);
-app.use((error, req,res, next) => {
+app.use((error, req, res, next) => {
+    console.log("app.js error ", error);
     const status = error.statusCode || 500;
     const message = error.message;
     res.status(status).json()({message: message});
