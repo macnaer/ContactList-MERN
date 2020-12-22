@@ -2,7 +2,15 @@ const path = require("path");
 const Contact = require('../models/contact');
 
 exports.getContacts = (req, res, next ) => {
-    res.send("Message");
+    Contact.find()
+        .then(contacts => {
+            res.status(200).json({message: "Fetched all contacts.", contacts: contacts})
+        }).catch(err => {
+            if (!err.statusCode){
+                err.statusCode = 500;
+            }
+            next();
+        })
 }
 
 exports.createContact = (req, res, next) => {
