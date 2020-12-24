@@ -1,8 +1,14 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
+import ContactListService from "../../Services/ContactListService";
 import "./AddContact.css";
 
 class AddContact extends React.Component {
+  constructor(){
+    super();
+    this.contactListService = new ContactListService();
+  }
+
   state = {
     name: "",
     role: "",
@@ -49,7 +55,9 @@ class AddContact extends React.Component {
   onSendData = (event) => {
     event.preventDefault();
     const { name, role, avatar, status, email, gender } = this.state;
-    this.props.onCreate(name, role, avatar, status, email, gender);
+    const contact = { name, role, avatar, status, email, gender };
+   
+    this.contactListService.onCreate(contact);
     this.setState({
       isRedirect: true,
     });

@@ -4,7 +4,7 @@ const router = express.Router();
 const contactControler = require("../controllers/contactController");
 
 router.get('/contacts', contactControler.getContacts)
-router.post('/contact', 
+router.post('/contacts', 
 [ 
     body('name').trim().isLength({min: 3})
 ], 

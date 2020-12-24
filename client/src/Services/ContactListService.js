@@ -23,15 +23,16 @@ export default class ContactListService {
     return List;
   }
 
-  //   async onSaveData(List) {
-  //     await fetch(this.DB_URL, {
-  //       method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(List),
-  //     });
-  //   }
+    async onSaveData(newContact) {
+      console.log("onSaveData", newContact)
+      await fetch(this.DB_URL + "contacts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newContact),
+      });
+    }
 
   //   onStatusChange = (id) => {
   //     const index = this.state.List.findIndex((elem) => elem.id === id);
@@ -55,26 +56,21 @@ export default class ContactListService {
   //     });
   //   };
 
-  //   onCreate = (name, role, avatar, status, email, gender) => {
-  //     let newContact = {
-  //       id: uuidv4(),
-  //       name: name,
-  //       role: role,
-  //       avatar: avatar,
-  //       created: Date.now(),
-  //       status: status,
-  //       email: email,
-  //       gender: gender,
-  //     };
+    onCreate = (contact) => {
+      const { name, role, avatar, status, email, gender } = contact;
+      let newContact = {
+        name: name,
+        role: role,
+        avatar: avatar,
+        created: Date.now(),
+        status: status,
+        email: email,
+        gender: gender,
+      };
 
-  //     const newList = [...this.state.List, newContact];
-  //     this.onSaveData(newList);
-  //     this.setState(() => {
-  //       return {
-  //         List: newList,
-  //       };
-  //     });
-  //   };
+      this.onSaveData(newContact);
+      this.updateData();
+    };
 
   //   onDelete = (id) => {
   //     const index = this.state.List.findIndex((elem) => elem.id === id);
