@@ -13,6 +13,7 @@ const contactListReducer = (state = initialState, action) => {
         List: action.payload,
       };
     case "SET_CURRENT_CONTACT":
+      console.log("REDUZER ", action.payload)
       return {
         ...state,
         loading: false,
@@ -20,7 +21,7 @@ const contactListReducer = (state = initialState, action) => {
       };
     default:
       return {
-        state,
+        state
       };
   }
 };

@@ -59,7 +59,8 @@ class ContactList extends React.Component {
                         List.map((item) => {
                           return (
                             <ContactItem
-                              key={item.id}
+                              key={item._id}
+                              id={item._id}
                               name={item.name}
                               role={item.role}
                               avatar={item.avatar}

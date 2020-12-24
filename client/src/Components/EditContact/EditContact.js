@@ -1,18 +1,23 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { getCurrentContact } from "../../Actions/ContactListActions";
+import ContactListService from "../../Services/ContactListService";
 
 class EditContact extends React.Component {
-  state = {
-    id: this.props.currentContact.id,
-    name: this.props.currentContact.name,
-    role: this.props.currentContact.role,
-    avatar: this.props.currentContact.avatar,
-    created: this.props.currentContact.created,
-    status: this.props.currentContact.status,
-    email: this.props.currentContact.email,
-    gender: this.props.currentContact.gender,
-    isRedirect: false,
-  };
+
+   id = this.props.match.params.id;
+
+  componentDidMount = () => {
+    const { getCurrentContact } = this.props;
+    const contactListService = new ContactListService();
+   
+    contactListService.onEdit(this.id).then(data => {
+      console.log("componentDidMount editContact ", data.contact)
+      getCurrentContact(data.contact);
+    })
+   
+  }
 
   getName = (event) => {
     this.setState({
@@ -74,55 +79,60 @@ class EditContact extends React.Component {
   };
 
   render() {
-    const { avatar, role, name, status, email, created, gender } = this.state;
-    if (this.state.isRedirect) {
-      return <Redirect to="/" />;
+  
+    if (!this.props.hasOwnProperty("currentContact")){
+      const { avatar = "", role, name, status, email, created, gender } = this.props.currentContact;
     }
+
+    const { avatar = "", role, name, status, email, created, gender } = this.props.currentContact;
+  
+   
+    console.log("this.props.currentContact ", this.props.currentContact);
     return (
       <div className="container">
         <div className="row">
           <div className="col-md-12">
             <form onSubmit={this.onSendData}>
-              <div class="form-group">
+              <div className="form-group">
                 <div>
                   <input
                     type="text"
                     value={name}
-                    class="form-control"
+                    className="form-control"
                     placeholder="Name"
                     onChange={this.getName}
                   />
                 </div>
               </div>
-              <div class="form-group">
+              <div className="form-group">
                 <div>
                   <input
                     type="text"
                     value={role}
-                    class="form-control"
+                    className="form-control"
                     placeholder="Role"
                     onChange={this.getRole}
                   />
                 </div>
               </div>
-              <div class="form-group">
+              <div className="form-group">
                 <div>
                   <input
                     type="number"
                     value={avatar}
                     min="1"
                     max="99"
-                    class="form-control"
-                    placeholder="Avatar"
+                    className="form-control"
+                    placeholder={avatar}
                     onChange={this.getAvatar}
                   />
                 </div>
               </div>
-              <div class="form-group">
+              <div className="form-group">
                 <div>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Status"
                     onChange={this.getStatus}
                     value={status}
@@ -130,22 +140,22 @@ class EditContact extends React.Component {
                 </div>
               </div>
 
-              <div class="form-group">
+              <div className="form-group">
                 <div>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     value={email}
                     placeholder="Email"
                     onChange={this.getEmail}
                   />
                 </div>
               </div>
-              <div class="form-group">
+              <div className="form-group">
                 <div>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Gender"
                     value={gender}
                     onChange={this.getGender}
@@ -153,9 +163,9 @@ class EditContact extends React.Component {
                 </div>
               </div>
 
-              <div class="form-group">
+              <div className="form-group">
                 <div>
-                  <button type="submit" class="btn btn-default">
+                  <button type="submit" className="btn btn-default">
                     Edit contact
                   </button>
                 </div>
@@ -168,4 +178,15 @@ class EditContact extends React.Component {
   }
 }
 
-export default EditContact;
+
+const mapStateToProps = ({ contactListReducer }) => {
+  console.log("mapStateToProps EDIT CONTACT ", contactListReducer);
+  const { List, loading, currentContact } = contactListReducer.state;
+  return { List, loading, currentContact};
+};
+
+const mapDispatchToProps = {
+  getCurrentContact
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EditContact));

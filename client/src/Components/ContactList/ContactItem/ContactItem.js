@@ -4,6 +4,7 @@ import "./ContactItem.css";
 
 class ContactItem extends React.Component {
   state = {
+    id: this.props.id,
     name: this.props.name,
     role: this.props.role,
     avatar: this.props.avatar,
@@ -13,7 +14,7 @@ class ContactItem extends React.Component {
     gender: this.props.gender,
   };
   render() {
-    const { avatar, role, name, email, created, gender } = this.state;
+    const { id, avatar, role, name, email, created, gender } = this.state;
     const { status } = this.props;
 
     const { onStatusChange, onDelete } = this.props;
@@ -52,7 +53,7 @@ class ContactItem extends React.Component {
               <i className="fa fa-search-plus fa-stack-1x fa-inverse"></i>
             </span>
           </a>
-          <Link to="/edit" className="table-link" onClick={this.props.onEdit}>
+          <Link to={`/edit/${id}`} className="table-link">
             <span className="fa-stack">
               <i className="fa fa-square fa-stack-2x"></i>
               <i className="fa fa-pencil fa-stack-1x fa-inverse"></i>

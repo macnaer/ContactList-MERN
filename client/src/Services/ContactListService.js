@@ -86,14 +86,22 @@ export default class ContactListService {
   //     });
   //   };
 
-  //   onEdit = (id) => {
-  //     const index = this.state.List.findIndex((elem) => elem.id === id);
-
-  //     const Contact = this.state.List[index];
-  //     this.setState({
-  //       currentContact: Contact,
-  //     });
-  //   };
+     async onEdit(id) {
+      const singleConatct = await fetch(this.DB_URL + `edit/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        }).then(result => {
+          return result.json();
+        }).then(data => {
+          return data;
+        })
+        .catch(err => {
+          return err;
+        });
+        return singleConatct;
+    };
 
   //   onEditCurrentContact = (
   //     name,

@@ -9,4 +9,5 @@ router.post('/contacts',
     body('name').trim().isLength({min: 3})
 ], 
 contactControler.createContact)
+router.get("/edit/:id", contactControler.getContact)
 module.exports = router;

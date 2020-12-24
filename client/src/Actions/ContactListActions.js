@@ -6,6 +6,7 @@ export const getContactList = (contactList) => {
 };
 
 export const getCurrentContact = (currentContact) => {
+  console.log("ACTION ", currentContact)
   return {
     type: "SET_CURRENT_CONTACT",
     payload: currentContact,

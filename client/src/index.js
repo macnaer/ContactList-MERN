@@ -23,7 +23,11 @@ const App = () => {
         <Provider store={store}>
           <Route path="/" exact render={() => <ContactList />} />
           <Route path="/add-new-contact" exact render={() => <AddContact />} />
-          <Route path="/edit" exact render={() => <EditContact />} />
+          <Route path="/edit/:id" exact render={({match}) => {
+            const { id } = match.params;
+            return <EditContact  id={id} />
+          }
+          } />
         </Provider>
         <Route component={NotFound} />
       </Switch>
