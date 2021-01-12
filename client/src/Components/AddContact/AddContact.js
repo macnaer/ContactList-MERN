@@ -52,10 +52,13 @@ class AddContact extends React.Component {
     });
   };
 
-  onSendData = (event) => {
+  onSendData = (event, postData) => {
+    console.log("postData ->>",postData)
     event.preventDefault();
     const { name, role, avatar, status, email, gender } = this.state;
     const contact = { name, role, avatar, status, email, gender };
+    const formData = new FormData();
+  
    
     this.contactListService.onCreate(contact);
     this.setState({
@@ -114,6 +117,18 @@ class AddContact extends React.Component {
                   />
                 </div>
               </div>
+
+               <div class="form-group">
+                <div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Status"
+                    onChange={this.getStatus}
+                  />
+                </div>
+              </div>
+
 
               <div class="form-group">
                 <div>

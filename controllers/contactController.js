@@ -21,10 +21,16 @@ exports.createContact = (req, res, next) => {
         error.statusCode = 422;
         throw error;
     }
-    console.log("createContact ", req.body);
-    const { name, role, avatar, status, email, gender } = req.body;
-    const contact = new Contact({
-        name, role, avatar, status, email, gender
+    if (!req.file) {
+        const error = new Error('No image.');
+        error.statusCode = 422;
+        throw error;
+    }
+        const imageUrl = req.file.path;
+        console.log("createContact ", req.body);
+        const { name, role, avatar, status, email, gender } = req.body;
+        const contact = new Contact({
+            name, role, avatar, status, email, gender, avatar: imageUrl
     });
     contact.save().then(result => {
         res.status(201).json({
